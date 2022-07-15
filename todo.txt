@@ -1,0 +1,53 @@
+Sprites:
+    implement enlarging 
+    make sur epropertty is organized
+    make sure I can get some fucking Sprites
+
+functionality:
+    sliding window has a problem it doesn't work 
+
+
+board:
+    worry about coordinate points an dhow to move pieces 
+
+
+
+
+
+netowrking:
+    listen, accept, use pickle
+    oimplement usernames
+    ip address( to send money)
+
+
+
+problems :
+    how am I getting 100 fucking cards imported
+
+
+
+
+
+
+current plan
+
+1) Take in ip and name
+2) set ip to a button, when the button is clicked on send the ip and name to the server 
+3) server will wait until everyone is ready 
+4) use a for loop to set up a the name buttons, when clicked on it, it has a menu :
+    1) that allows us to specify the amount of money we want to send to that person
+    2) that has their property 
+    3) that allows us to trade property with them 
+    4) maybe implement get out of jail free cards to trade with
+
+
+notes: worry about rent and worry about how to format the payment
+
+
+when it comes to property : store all the rentcahnge in a dictionary
+
+if it's a warter works/ electric or railroad make methodsw in the USER to change the pricing
+
+
+please try and figure out how the fuck I am going to make the board and piece 
+movement(pieces should be of player attribute)
