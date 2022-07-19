@@ -1,3 +1,6 @@
+from asyncio.windows_utils import BUFSIZE
+from tkinter import BUTT
+from matplotlib.pyplot import close
 import pygame
 from Button_obj import *
 import os,sys
@@ -115,21 +118,23 @@ board = pygame.transform.scale(board,(800,800))
 die_roller = Button(RED,1200,000,200,200,"roll")
 die1 = Randomizer(800,0)
 die2 = Randomizer(1000,0)
+
 die1.make_options(),die2.make_options()        #making dices here
 option1,option2 = die1.chose(),die2.chose()    #setting two default values
 
 pull_out = Expand(RED,800,200,600,800)
 
-
-money_entry = Entry(RED,1300,200,200,100)
+close_button = Button(RED,1350,200,50,50,"X")
+money_entry = Entry(RED,1000,200,200,100)
 
 test_button = Button(LBLUE,LENGTH-50, 350,50,100,"open")
-pull_out.set_assets(money_entry=money_entry)
+pull_out.set_assets(money_entry=money_entry,close= close_button)
 # print(pull_out.assets)
 
 def main():
     screen = False
     global option1,option2
+    
     while True:
         
         window.fill(BLACK)
@@ -146,8 +151,10 @@ def main():
                 sys.exit()
             
             if event.type == pygame.MOUSEMOTION:
+                
                 if die_roller.isOver(pos):
                     die_roller.color = GREEN
+
                 else:
                     die_roller.color = RED
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -159,15 +166,24 @@ def main():
                     if screen:
                         screen = False
                     else: screen = True
-            if event.type == pygame.KEYDOWN:
                 
-
-
-
                 if pull_out.assets["money_entry"].isOver(pos):
                     pull_out.assets["money_entry"].color = LBLUE
+                    pull_out.assets["money_entry"].toggle(True)
                 else:
                     pull_out.assets["money_entry"].color = RED
+                    pull_out.assets["money_entry"].toggle(False)
+                if pull_out.assets["close"].isOver(pos):
+                    screen = False
+
+
+            if event.type == pygame.KEYDOWN:
+                pull_out.assets["money_entry"].type(window,pygame.key.name(event.key))
+
+
+            
+
+            
         option1.draw(window)
         option2.draw(window)
         
