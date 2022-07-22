@@ -6,6 +6,7 @@ from Button_obj import *
 import os,sys
 import socket
 from dice import Randomizer
+from player import *
 
 #configuration
 LENGTH,WIDTH = 1400,800
@@ -16,7 +17,7 @@ directory = os.getcwd()
 
 
 pygame.init()
-window= pygame.display.set_mode((LENGTH,WIDTH))
+window= pygame.display.set_mode((LENGTH,WIDTH),0, 32)
 pygame.display.set_caption("Monopoly")
 pygame.key.set_repeat(500,50)
 font = pygame.font.SysFont('comic sans', 40)
@@ -124,11 +125,16 @@ option1,option2 = die1.chose(),die2.chose()    #setting two default values
 
 pull_out = Expand(RED,800,200,600,800)
 
-close_button = Button(RED,1350,200,50,50,"X")
+close_button = Button(RED,1350,202,50,50,"X")
 money_entry = Entry(RED,1000,200,200,100)
-
+bank = Banker("property.json")
+bank.create_prop()
 test_button = Button(LBLUE,LENGTH-50, 350,50,100,"open")
-pull_out.set_assets(money_entry=money_entry,close= close_button)
+pull_out.set_assets(money_entry = money_entry,close = close_button,**bank.deck)
+
+
+
+
 # print(pull_out.assets)
 
 def main():
@@ -138,38 +144,50 @@ def main():
     while True:
         
         window.fill(BLACK)
-        pygame.draw.line(window,BLACK,(800,200),(1400,200),2)
-        die_roller.draw(window,1)
+        # pygame.draw.line(window,BLACK,(800,200),(1400,200),2)
+
+
+        die_roller.draw(window)
         test_button.draw(window)
         # pull_out.draw(window)
         window.blit(board,(0,0))
         pos = pygame.mouse.get_pos()
         
         for event in pygame.event.get():
-            
+
             if event.type == pygame.QUIT:
                 sys.exit()
+
             
+
             if event.type == pygame.MOUSEMOTION:
-                
                 if die_roller.isOver(pos):
                     die_roller.color = GREEN
-
                 else:
                     die_roller.color = RED
+                if pull_out.assets["close"].isOver(pos):
+                    pull_out.assets["close"].color = RED
+                else:pull_out.assets["close"].color = WHITE
+
+
             if event.type == pygame.MOUSEBUTTONDOWN:
+
+
                 if die_roller.isOver(pos):
                     option1,option2 = die1.chose(),die2.chose()
                     print(option1.get_val(),option2.get_val())
                 if test_button.isOver(pos):
-                    # screen = True
-                    if screen:
-                        screen = False
-                    else: screen = True
-                
+                    screen = True
+                    
+
+
+
                 if pull_out.assets["money_entry"].isOver(pos):
                     pull_out.assets["money_entry"].color = LBLUE
                     pull_out.assets["money_entry"].toggle(True)
+
+
+
                 else:
                     pull_out.assets["money_entry"].color = RED
                     pull_out.assets["money_entry"].toggle(False)
@@ -183,7 +201,7 @@ def main():
 
             
 
-            
+        
         option1.draw(window)
         option2.draw(window)
         
