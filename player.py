@@ -1,4 +1,5 @@
 import pygame 
+from collectable import *
 class Player:
     def __init__(self,name,ip,image):
         self.ip = ip
@@ -15,6 +16,18 @@ class Player:
         self.balance -= val
         return val
     
-class 
+class Banker:
+    def __init__(self,file) -> None:
+        self.file = file
+        self.deck = {}
+        
+    def create_prop(self):
+        with open(self.file,"r") as f:
+            data = json.load(f)
+        
+        for x in data:
+            
+            self.deck[x["Name"]] = (Collectable(x["Name"],x["Color"],x["Price"],x["Rent"],x["PriceBuild"],x["x"],x["y"]))
+
         
 

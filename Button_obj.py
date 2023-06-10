@@ -1,4 +1,9 @@
 import pygame
+
+
+RED = (255, 0, 0)
+BLACK = (0,0,0)
+WHITE = (255,255,255)
 class Button():
     def __init__(self, color, x,y,width,height, text=''):
         self.color = color
@@ -34,8 +39,6 @@ class Button():
         return False
     
         
-h4h
-
 
 
 
@@ -49,6 +52,11 @@ class Entry ():
         self.text = ""
         self.font = pygame.font.SysFont('comic sans', 30)
         self.focus = False
+        
+    def toggle(self,status):
+        self.focus = status
+
+
     def draw(self,win,outline=None):
         #Call this method to draw the button on the screen
         if outline:
@@ -95,25 +103,28 @@ class Expand:
         self.height = height
         # self.text = text
         self.open = True
-        self.assets = [] #(button,)
-        self.hidden = True
-        self.rectangle = pygame.Rect(x,y,width,height)
-        self.full = [self.rectangle]
+        self.assets = {} #(button,)
         
+        self.rectangle = pygame.Rect(x,y,width,height)
+        
+        
+    def toggle(self, status):
+        for x in self.assets.values():
+            x.toggle(status)
+    
+
     
     
     def draw(self,window):
-        if self.hidden:
-            self.assets = []
-            return 
-        self.hidden = self.full
-        for x in self.assets:
-            x.draw(window,1)
-    # def close(self):
-
+        pygame.draw.rect(window,WHITE,self.rectangle)
+        
+        for x in self.assets.values():
+            x.draw(window)
 
             
-    def set_assets(self,*args):
-        for x in args:
-            self.full.append(x)
+    def set_assets(self,**args):
+        
+        for keys,values in args.items():
+            self.assets[keys] = values
+            
 
